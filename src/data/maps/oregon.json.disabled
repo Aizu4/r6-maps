@@ -1,0 +1,22 @@
+{
+  "display_name": "Oregon",
+  "floors": {
+    "1": "F1",
+    "2": "F2",
+    "3": "F3",
+    "4": "F4",
+    "5": "F5"
+  },
+  "poi": {
+    "cameras": [],
+    "pipes": [],
+    "fire_extinguishers": [],
+    "spawn_locations": [],
+    "bomb_locations": []
+  },
+  "metadata": {
+    "slug": "oregon",
+    "blueprint_url": "https://static2.cdn.ubi.com/gamesites/rainbow6/blueprints/r6-maps-oregon-blueprints.zip",
+    "blueprint_path": "maps/oregon/r6-maps-oregon-blueprint-{}.jpg"
+  }
+}
