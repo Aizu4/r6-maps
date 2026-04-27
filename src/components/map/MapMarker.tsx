@@ -1,7 +1,8 @@
 import React, {useMemo} from 'react';
 import {Avatar, Tooltip} from 'antd';
-import {type Waypoint, WAYPOINT_PROPERTIES} from '../../types';
+import {type Waypoint} from '../../types';
 import {useMapDisplaySettings} from "../../hooks/useMapDisplaySettings.ts";
+import {WAYPOINT_PROPERTIES} from "../../constants.ts";
 
 interface MapMarkerProps {
   waypoint: Waypoint;

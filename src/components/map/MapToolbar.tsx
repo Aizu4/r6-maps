@@ -1,11 +1,11 @@
 import {Button, Cascader, Flex, Radio} from 'antd';
 import {ArrowLeftOutlined} from '@ant-design/icons';
 import type {PoiData} from "../../types.ts";
-import {POI_METADATA} from "../../types.ts";
 import {type ReactNode, useMemo} from "react";
 import CheckboxButton from "../common/CheckboxButton.tsx";
 import {useMapDisplaySettings} from "../../hooks/useMapDisplaySettings.ts";
 import {useMapData} from "../../hooks/useMapData.ts";
+import {POI_METADATA} from "../../constants.ts";
 
 interface Option {
   value: string;

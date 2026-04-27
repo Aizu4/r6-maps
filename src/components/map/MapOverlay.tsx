@@ -1,6 +1,6 @@
 import type {MapData, MapDisplaySettings, PoiData} from '../../types';
-import {POI_METADATA} from '../../types';
 import MapMarker from './MapMarker';
+import {POI_METADATA} from "../../constants.ts";
 
 interface MapOverlayProps {
   data: MapData;
