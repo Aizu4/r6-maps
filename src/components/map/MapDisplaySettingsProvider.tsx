@@ -1,10 +1,6 @@
-import {createContext, type ReactNode, useContext, useState} from 'react';
+import {type ReactNode, useState} from 'react';
 import type {MapDisplaySettings} from "../../types.ts";
-
-interface MapDisplaySettingsContextType {
-  displaySettings: MapDisplaySettings;
-  updateDisplaySettings: (updatedSettings: Partial<MapDisplaySettings>) => void;
-}
+import {MapDisplaySettingsContext} from "../../hooks/useMapDisplaySettings.ts";
 
 const defaultSettings: MapDisplaySettings = {
   currentFloor: 1,
@@ -13,8 +9,6 @@ const defaultSettings: MapDisplaySettings = {
   showSpawns: false,
   show_coordinates: false,
 };
-
-const MapDisplaySettingsContext = createContext<MapDisplaySettingsContextType | null>(null);
 
 export default function MapDisplaySettingsProvider({children}: { children: ReactNode }) {
   const [displaySettings, setDisplaySettings] = useState<MapDisplaySettings>(defaultSettings);
@@ -27,11 +21,4 @@ export default function MapDisplaySettingsProvider({children}: { children: React
   }
 
   return <MapDisplaySettingsContext.Provider value={{displaySettings, updateDisplaySettings}} children={children}/>;
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export function useMapDisplaySettings() {
-  const context = useContext(MapDisplaySettingsContext);
-  if (!context) throw new Error('useMapDisplaySettings must be used within a MapDisplaySettingsProvider');
-  return context;
 }

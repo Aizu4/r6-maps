@@ -1,8 +1,8 @@
 import {useRef, useState} from 'react';
 import {TransformComponent, TransformWrapper} from 'react-zoom-pan-pinch';
 import MapOverlay from './MapOverlay';
-import {useMapDisplaySettings} from "./MapDisplaySettingsProvider.tsx";
-import {useMapData} from "./MapDataProvider.tsx";
+import {useMapDisplaySettings} from "../../hooks/useMapDisplaySettings.ts";
+import {useMapData} from "../../hooks/useMapData.ts";
 
 
 export default function MapViewer() {
