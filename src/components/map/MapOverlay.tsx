@@ -1,50 +1,60 @@
-import React from 'react';
-import type {BombLocation, PoiData, PoiType, SpawnLocation} from '../../types';
-import MapPoiMarker from './markers/MapPoiMarker';
-import MapSpawnMarker from './markers/MapSpawnMarker';
-import MapBombMarker from './markers/MapBombMarker';
+import type {MapData, MapDisplaySettings, PoiData} from '../../types';
+import {POI_METADATA} from '../../types';
+import MapMarker from './MapMarker';
 
 interface MapOverlayProps {
-  poi: PoiData;
-  spawnLocations: SpawnLocation[];
-  activeBomb: BombLocation | null;
-  visiblePoiTypes: PoiType[];
-  showSpawns: boolean;
-  currentFloor: string;
-  floors: Record<string, string>;
+  data: MapData;
+  settings: MapDisplaySettings;
+  imgSize: {width: number; height: number} | null;
 }
 
-const containerStyle: React.CSSProperties = {
-  position: 'absolute', top: 0, left: 0, width: 0, height: 0, pointerEvents: 'none',
-};
 
-export default function MapOverlay({
-                                     poi,
-                                     spawnLocations,
-                                     activeBomb,
-                                     visiblePoiTypes,
-                                     showSpawns,
-                                     currentFloor,
-                                     floors
-                                   }: MapOverlayProps) {
-  const floorKeys = Object.keys(floors).sort((a, b) => Number(a) - Number(b));
+export default function MapOverlay(props: MapOverlayProps) {
+  const {poi, bomb_locations, spawn_locations} = props.data;
+  const {currentFloor, selectedDisplay, selectedBomb, showSpawns} = props.settings;
+  const {imgSize} = props;
+
+  const poiKeys = new Set(Object.keys(poi));
+
+  const visiblePoiTypes = selectedDisplay
+      .filter(path => poiKeys.has(path[0]))
+      .map(path => path[0] as keyof PoiData);
+
   const poiMarkers = visiblePoiTypes.flatMap(type =>
       (poi[type] ?? [])
           .filter(wp => wp.position.floors.includes(currentFloor))
-          .map((wp, i) => <MapPoiMarker key={`${type}-${i}`} type={type} waypoint={wp}/>)
+          .map((wp, i) => (
+              <MapMarker
+                  key={`${type}-${i}`}
+                  waypoint={{type: POI_METADATA[type].waypoint_type, position: wp.position, note: wp.note}}
+                  displaySettings={props.settings}
+                  imgSize={imgSize}
+              />
+          ))
   );
 
-  const spawnMarkers = showSpawns
-      ? spawnLocations
-          .filter(s => s.position.floors.includes(currentFloor))
-          .map((s, i) => <MapSpawnMarker key={`spawn-${i}`} spawn={s}/>)
-      : [];
+  const spawnMarkers = showSpawns ? spawn_locations
+      .filter(s => s.position.floors.includes(currentFloor))
+      .map((s, i) => (
+          <MapMarker
+              key={`spawn-${i}`}
+              waypoint={{type: 'spawn', position: s.position, note: s.name}}
+              displaySettings={props.settings}
+              imgSize={imgSize}
+          />
+      )) : [];
+
+  const activeBomb = bomb_locations.find(b => b.name === selectedBomb[0]) ?? null;
+  const bombMarkers = activeBomb ? [
+    <MapMarker key="bomb_a" waypoint={{type: 'bomb_a', position: activeBomb.position_a}} displaySettings={props.settings} imgSize={imgSize}/>,
+    <MapMarker key="bomb_b" waypoint={{type: 'bomb_b', position: activeBomb.position_b}} displaySettings={props.settings} imgSize={imgSize}/>,
+  ] : [];
 
   return (
-      <div style={containerStyle}>
+      <div className="absolute inset-0 pointer-events-none">
         {poiMarkers}
         {spawnMarkers}
-        {activeBomb && <MapBombMarker bomb={activeBomb} currentFloor={currentFloor} allFloors={floorKeys}/>}
+        {bombMarkers}
       </div>
   );
 }

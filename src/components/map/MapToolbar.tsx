@@ -1,62 +1,132 @@
 import {Button, Cascader, Flex, Radio} from 'antd';
 import {ArrowLeftOutlined} from '@ant-design/icons';
-import type {MapData, PoiType} from "../../types.ts";
-import {POI_STYLES} from "../../types.ts";
-import {useMemo} from "react";
-
-interface ToolbarProps {
-  mapData: MapData;
-  currentFloor: string;
-  onFloorChange: (floor: string) => void;
-  onBack: () => void;
-  selectedDisplay: string[][];
-  onDisplayChange: (val: string[][]) => void;
-  selectedBomb: string[];
-  onBombChange: (val: string[]) => void;
-}
+import type {PoiData} from "../../types.ts";
+import {POI_METADATA} from "../../types.ts";
+import {type ReactNode, useMemo} from "react";
+import CheckboxButton from "../common/CheckboxButton.tsx";
+import {useMapDisplaySettings} from "./MapDisplaySettingsProvider.tsx";
+import {useMapData} from "./MapDataProvider.tsx";
 
 interface Option {
   value: string;
   label: string;
 }
 
-export default function MapToolbar({mapData, currentFloor, onBack, onFloorChange, selectedDisplay, onDisplayChange, selectedBomb, onBombChange}: ToolbarProps) {
-  const displayOptions = useMemo<Option[]>(() => [
-    ...(Object.keys(mapData.poi) as PoiType[]).map(key => ({
-      value: key,
-      label: POI_STYLES[key].name,
-    })),
-    {value: 'spawn_locations', label: 'Spawn Locations'},
-    {value: 'rooms', label: 'Room Names'},
-  ], [mapData.poi]);
+interface ToolbarProps {
+  onBack: () => void;
+  debugEnabled: boolean;
+}
 
-  const bombOptions = useMemo<Option[]>(() =>
-    mapData.bomb_locations.map(b => ({value: b.name, label: b.name}))
-  , [mapData.bomb_locations]);
+
+export default function MapToolbar(props: ToolbarProps) {
+  return (
+      <Flex wrap gap="small" className="absolute z-10 top-3 left-3 right-3">
+        <BackButton onBack={props.onBack}/>
+        <FloorSelect/>
+        <PoiSelect/>
+        <BombSiteSelect/>
+        <SpawnPointToggle/>
+        {props.debugEnabled && <div style={{flex: 1}}/>}
+        {props.debugEnabled && <DebugOptions/>}
+      </Flex>
+  );
+}
+
+function BackButton({onBack}: Partial<ToolbarProps>): ReactNode {
+  return (
+      <Button
+          icon={<ArrowLeftOutlined/>}
+          onClick={onBack}
+      >Back</Button>
+  );
+}
+
+function FloorSelect() {
+  const {mapData} = useMapData();
+  const {displaySettings, updateDisplaySettings} = useMapDisplaySettings();
 
   return (
-      <Flex gap="small" className="absolute top-4 left-4 z-10">
-        <Button icon={<ArrowLeftOutlined/>} onClick={onBack}>Back</Button>
-        <Radio.Group value={currentFloor} onChange={e => onFloorChange(e.target.value)}>
-          {Object.entries(mapData.floors).map(([key, label]) => (
-              <Radio.Button key={key} value={key}>{label}</Radio.Button>
-          ))}
-        </Radio.Group>
-        <Cascader
-            placeholder="Filter Settings"
-            options={displayOptions}
-            value={selectedDisplay}
-            onChange={val => onDisplayChange(val as string[][])}
-            multiple
-            maxTagCount={0}
-            maxTagPlaceholder={() => `${selectedDisplay.length} selected`}
-        />
-        <Cascader
-            placeholder="Bomb site"
-            options={bombOptions}
-            value={selectedBomb}
-            onChange={val => onBombChange(val as string[])}
-        />
-      </Flex>
+      <Radio.Group
+          buttonStyle="solid"
+          value={displaySettings.currentFloor}
+          onChange={e => updateDisplaySettings({currentFloor: Number(e.target.value)})}
+      >
+        {mapData.floors.map(({id, name}) => (
+            <Radio.Button key={id} value={id}>{name}</Radio.Button>
+        ))}
+      </Radio.Group>
+  );
+}
+
+function PoiSelect() {
+  const {mapData} = useMapData();
+  const {displaySettings, updateDisplaySettings} = useMapDisplaySettings();
+
+  const displayOptions = useMemo<Option[]>(() => {
+    return (Object.keys(mapData.poi) as (keyof PoiData)[]).map(key => ({
+      value: key,
+      label: POI_METADATA[key].friendly_name,
+    }))
+  }, [mapData.poi]);
+
+  return (
+      <Cascader
+          placeholder="Points of Interest"
+          options={displayOptions}
+          value={displaySettings.selectedDisplay}
+          onChange={val => updateDisplaySettings({selectedDisplay: val as string[][]})}
+          multiple
+          maxTagCount={0}
+          maxTagPlaceholder={() => `${displaySettings.selectedDisplay.length} selected`}
+      />
+  );
+}
+
+function BombSiteSelect() {
+  const {mapData} = useMapData();
+  const {displaySettings, updateDisplaySettings} = useMapDisplaySettings();
+
+  const bombOptions = useMemo<Option[]>(() => {
+    return mapData.bomb_locations.map(b => ({value: b.name, label: b.name}))
+  }, [mapData.bomb_locations]);
+
+  return (
+      <Cascader
+          placeholder="Bomb Site"
+          options={bombOptions}
+          value={displaySettings.selectedBomb}
+          onChange={val => updateDisplaySettings({selectedBomb: val as string[]})}
+      />
+  );
+}
+
+function SpawnPointToggle() {
+  const {updateDisplaySettings} = useMapDisplaySettings();
+
+  return (
+      <CheckboxButton
+          onToggle={v => updateDisplaySettings({showSpawns: v})}
+      >Spawn Points</CheckboxButton>
+  );
+}
+
+function DebugOptions() {
+  const {displaySettings, updateDisplaySettings} = useMapDisplaySettings();
+
+  const debugOptions = [{
+    value: 'show_coordinates',
+    label: 'Show Coordinates'
+  }]
+
+  const value = displaySettings.show_coordinates ? [['show_coordinates']] : [];
+
+  return (
+      <Cascader
+          placeholder="Debug Options"
+          options={debugOptions}
+          value={value}
+          onChange={val => updateDisplaySettings({show_coordinates: (val as string[][]).some(v => v[0] === 'show_coordinates')})}
+          multiple
+      />
   );
 }
