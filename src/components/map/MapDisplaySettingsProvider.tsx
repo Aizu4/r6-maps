@@ -1,4 +1,4 @@
-import {createContext, type ReactNode, useCallback, useContext, useState} from 'react';
+import {createContext, type ReactNode, useContext, useState} from 'react';
 import type {MapDisplaySettings} from "../../types.ts";
 
 interface MapDisplaySettingsContextType {
@@ -19,12 +19,12 @@ const MapDisplaySettingsContext = createContext<MapDisplaySettingsContextType | 
 export default function MapDisplaySettingsProvider({children}: { children: ReactNode }) {
   const [displaySettings, setDisplaySettings] = useState<MapDisplaySettings>(defaultSettings);
 
-  const updateDisplaySettings = useCallback((updatedSettings: Partial<MapDisplaySettings>) => {
+  function updateDisplaySettings(updatedSettings: Partial<MapDisplaySettings>) {
     setDisplaySettings((prevSettings) => ({
       ...prevSettings,
       ...updatedSettings,
     }));
-  }, []);
+  }
 
   return <MapDisplaySettingsContext.Provider value={{displaySettings, updateDisplaySettings}} children={children}/>;
 }
