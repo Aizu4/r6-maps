@@ -1,17 +1,19 @@
 import React, {useMemo} from 'react';
 import {Avatar, Tooltip} from 'antd';
-import {type MapDisplaySettings, type Waypoint, WAYPOINT_PROPERTIES} from '../../types';
+import {type Waypoint, WAYPOINT_PROPERTIES} from '../../types';
+import {useMapDisplaySettings} from "./MapDisplaySettingsProvider.tsx";
 
 interface MapMarkerProps {
   waypoint: Waypoint;
-  displaySettings: MapDisplaySettings;
-  imgSize: {width: number; height: number} | null;
+  imgSize?: { width: number; height: number };
 }
 
-export default function MapMarker({waypoint, displaySettings, imgSize}: MapMarkerProps) {
+export default function MapMarker({waypoint, imgSize}: MapMarkerProps) {
+  const {displaySettings} = useMapDisplaySettings();
+
   const {label, color, textColor, shape, opacity} = useMemo(() => {
     const props = WAYPOINT_PROPERTIES[waypoint.type];
-    if (waypoint.type === 'bomb_a' || waypoint.type === 'bomb_b') {
+    if (['bomb_a', 'bomb_b'].includes(waypoint.type)) {
       if (Math.min(...waypoint.position.floors) > displaySettings.currentFloor) {
         return {...props, label: '▲', opacity: 0.5};
       } else if (Math.max(...waypoint.position.floors) < displaySettings.currentFloor) {

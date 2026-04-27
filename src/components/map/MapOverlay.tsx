@@ -5,9 +5,8 @@ import MapMarker from './MapMarker';
 interface MapOverlayProps {
   data: MapData;
   settings: MapDisplaySettings;
-  imgSize: {width: number; height: number} | null;
+  imgSize?: { width: number; height: number };
 }
-
 
 export default function MapOverlay(props: MapOverlayProps) {
   const {poi, bomb_locations, spawn_locations} = props.data;
@@ -27,7 +26,6 @@ export default function MapOverlay(props: MapOverlayProps) {
               <MapMarker
                   key={`${type}-${i}`}
                   waypoint={{type: POI_METADATA[type].waypoint_type, position: wp.position, note: wp.note}}
-                  displaySettings={props.settings}
                   imgSize={imgSize}
               />
           ))
@@ -39,15 +37,14 @@ export default function MapOverlay(props: MapOverlayProps) {
           <MapMarker
               key={`spawn-${i}`}
               waypoint={{type: 'spawn', position: s.position, note: s.name}}
-              displaySettings={props.settings}
               imgSize={imgSize}
           />
       )) : [];
 
   const activeBomb = bomb_locations.find(b => b.name === selectedBomb[0]) ?? null;
   const bombMarkers = activeBomb ? [
-    <MapMarker key="bomb_a" waypoint={{type: 'bomb_a', position: activeBomb.position_a}} displaySettings={props.settings} imgSize={imgSize}/>,
-    <MapMarker key="bomb_b" waypoint={{type: 'bomb_b', position: activeBomb.position_b}} displaySettings={props.settings} imgSize={imgSize}/>,
+    <MapMarker key="bomb_a" waypoint={{type: 'bomb_a', position: activeBomb.position_a}} imgSize={imgSize}/>,
+    <MapMarker key="bomb_b" waypoint={{type: 'bomb_b', position: activeBomb.position_b}} imgSize={imgSize}/>,
   ] : [];
 
   return (
