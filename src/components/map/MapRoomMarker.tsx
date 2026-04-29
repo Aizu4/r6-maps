@@ -58,7 +58,7 @@ function RoomLabel({roomData, imgSize}: MapRoomMarkerProps) {
     position: 'absolute',
     left,
     top,
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: '"Anton", sans-serif',
     color: 'rgba(255,255,255,0.85)',
     pointerEvents: 'none',

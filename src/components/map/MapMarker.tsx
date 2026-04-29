@@ -17,28 +17,31 @@ export default function MapMarker({waypoint, imgSize}: MapMarkerProps) {
 
   const {label, icon, color, text_color, shape, opacity} = useMemo(() => {
     const props = WAYPOINT_PROPERTIES[waypoint.type];
-    if (waypoint.position.floors.length === 0) {
+    const {floors} = waypoint.position;
+    if (floors.length === 0) {
       return {...props, opacity: 1};
     }
+    const minFloor = Math.min(...floors);
+    const maxFloor = Math.max(...floors);
     if (['bomb_a', 'bomb_b'].includes(waypoint.type)) {
-      if (displaySettings.current_floor < Math.min(...waypoint.position.floors)) {
+      if (displaySettings.currentFloor < minFloor) {
         return {...props, label: '▲', opacity: 0.4};
-      } else if (displaySettings.current_floor > Math.max(...waypoint.position.floors)) {
+      } else if (displaySettings.currentFloor > maxFloor) {
         return {...props, label: '▼', opacity: 0.4};
       }
     }
-    if (waypoint.type === 'hatch' && !waypoint.position.floors.includes(displaySettings.current_floor)) {
+    if (waypoint.type === 'hatch' && !floors.includes(displaySettings.currentFloor)) {
       return {...props, opacity: 0.4};
     }
-    if (waypoint.type === 'stairs' && waypoint.position.floors.length > 1) {
-      if (displaySettings.current_floor === Math.min(...waypoint.position.floors)) {
+    if (waypoint.type === 'stairs' && floors.length > 1) {
+      if (displaySettings.currentFloor === minFloor) {
         return {...props, icon: 'stairs_up', opacity: 1};
-      } else if (displaySettings.current_floor === Math.max(...waypoint.position.floors)) {
+      } else if (displaySettings.currentFloor === maxFloor) {
         return {...props, icon: 'stairs_down', opacity: 1};
       }
     }
     return {...props, opacity: 1};
-  }, [waypoint.type, waypoint.position.floors, displaySettings.current_floor]);
+  }, [waypoint.type, waypoint.position, displaySettings.currentFloor]);
 
   const left = imgSize ? `${(waypoint.position.x / imgSize.width) * 100}%` : waypoint.position.x;
   const top = imgSize ? `${(waypoint.position.y / imgSize.height) * 100}%` : waypoint.position.y;

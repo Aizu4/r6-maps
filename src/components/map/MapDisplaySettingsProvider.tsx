@@ -3,7 +3,7 @@ import type {MapDisplaySettings} from "../../types.ts";
 import {MapDisplaySettingsContext} from "../../hooks/useMapDisplaySettings.ts";
 
 const defaultSettings: MapDisplaySettings = {
-  current_floor: 1,
+  currentFloor: 1,
   selectedPoiCategories: [],
   selectedBombLocation: null,
   showSpawns: false,

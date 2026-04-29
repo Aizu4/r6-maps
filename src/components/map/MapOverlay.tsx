@@ -13,13 +13,13 @@ export default function MapOverlay(props: MapOverlayProps) {
   const {displaySettings} = useMapDisplaySettings();
 
   const {poi, bomb_locations, spawn_locations, rooms} = mapData;
-  const {current_floor, selectedPoiCategories, selectedBombLocation, showSpawns, showRooms} = displaySettings;
+  const {currentFloor, selectedPoiCategories, selectedBombLocation, showSpawns, showRooms} = displaySettings;
   const {imgSize} = props;
 
   const poiMarkers = selectedPoiCategories.flatMap(type =>
       (poi[type] ?? [])
-          .filter(p => p.position.floors.includes(current_floor) ||
-              (type === 'hatches' && p.position.floors.some(f => f === current_floor + 1)))
+          .filter(p => p.position.floors.includes(currentFloor) ||
+              (type === 'hatches' && p.position.floors.some(f => f === currentFloor + 1)))
           .map((p, i) => (
               <MapMarker
                   key={`${type}-${i}`}
@@ -45,7 +45,7 @@ export default function MapOverlay(props: MapOverlayProps) {
   ];
 
   const roomMarkers = showRooms && rooms
-      .filter(r => r.position.floors.includes(current_floor))
+      .filter(r => r.position.floors.includes(currentFloor))
       .map((r, i) => (
           <MapRoomMarker key={`room-${i}`} roomData={r} imgSize={imgSize}/>
       ));

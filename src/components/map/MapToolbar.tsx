@@ -49,8 +49,8 @@ function FloorSelect() {
   return (
       <Radio.Group
           buttonStyle="solid"
-          value={displaySettings.current_floor}
-          onChange={e => updateDisplaySettings({current_floor: Number(e.target.value)})}
+          value={displaySettings.currentFloor}
+          onChange={e => updateDisplaySettings({currentFloor: Number(e.target.value)})}
       >
         {mapData.floors.map(({id, name}) => (
             <Radio.Button key={id} value={id}>{name}</Radio.Button>
@@ -121,29 +121,23 @@ function RoomToggle() {
   );
 }
 
+const DEBUG_OPTIONS = [
+  {value: 'show_coordinates', label: 'Show Coordinates'},
+  {value: 'capture_coordinates', label: 'Capture Coordinates on Click'},
+];
+
 function DebugOptions() {
   const {displaySettings, updateDisplaySettings} = useMapDisplaySettings();
 
-  const debugOptions = [
-    {
-      value: 'show_coordinates',
-      label: 'Show Coordinates'
-    },
-    {
-      value: 'capture_coordinates',
-      label: 'Capture Coordinates on Click'
-    },
-  ]
-
-  const value = [
+  const value = useMemo(() => [
     ...(displaySettings.showCoordinates    ? [['show_coordinates']]    : []),
     ...(displaySettings.captureCoordinates ? [['capture_coordinates']] : []),
-  ];
+  ], [displaySettings.showCoordinates, displaySettings.captureCoordinates]);
 
   return (
       <Cascader
           placeholder="Debug Options"
-          options={debugOptions}
+          options={DEBUG_OPTIONS}
           value={value}
           onChange={val => updateDisplaySettings({
             showCoordinates:    (val as string[][]).some(v => v[0] === 'show_coordinates'),
