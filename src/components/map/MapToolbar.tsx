@@ -1,10 +1,9 @@
 import {Button, Cascader, Flex, Radio} from 'antd';
 import {ArrowLeftOutlined} from '@ant-design/icons';
-import type {PoiCategory, PoiData} from "../../types.ts";
 import {type ReactNode, useMemo} from "react";
 import CheckboxButton from "../common/CheckboxButton.tsx";
-import {useMapDisplaySettings} from "../../hooks/useMapDisplaySettings.ts";
-import {useMapData} from "../../hooks/useMapData.ts";
+import {type PoiCategory, useMapDisplaySettings} from "../../hooks/useMapDisplaySettings.ts";
+import {type PoiData, useMapData} from "../../hooks/useMapData.ts";
 import {POI_METADATA} from "../../constants.ts";
 
 interface Option {
@@ -27,7 +26,7 @@ export default function MapToolbar(props: ToolbarProps) {
         <BombSiteSelect/>
         <SpawnPointToggle/>
         <RoomToggle/>
-        {props.debugEnabled && <div style={{flex: 1}}/>}
+        {props.debugEnabled && <div className="flex-1"/>}
         {props.debugEnabled && <DebugOptions/>}
       </Flex>
   );

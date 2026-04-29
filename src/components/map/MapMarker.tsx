@@ -1,8 +1,7 @@
-import React, {useMemo} from 'react';
+import {useMemo} from 'react';
 import {Tooltip} from 'antd';
-import type {Waypoint} from '../../types';
 import {useMapDisplaySettings} from "../../hooks/useMapDisplaySettings.ts";
-import {useMapData} from "../../hooks/useMapData.ts";
+import {useMapData, type Waypoint} from "../../hooks/useMapData.ts";
 import {WAYPOINT_PROPERTIES} from "../../constants.ts";
 
 interface MapMarkerProps {
@@ -46,37 +45,14 @@ export default function MapMarker({waypoint, imgSize}: MapMarkerProps) {
   const left = imgSize ? `${(waypoint.position.x / imgSize.width) * 100}%` : waypoint.position.x;
   const top = imgSize ? `${(waypoint.position.y / imgSize.height) * 100}%` : waypoint.position.y;
 
-  const divStyle: React.CSSProperties = {
-    position: 'absolute',
-    pointerEvents: 'auto',
-    left,
-    top,
-    transform: 'translate(-50%, -50%)',
-    width: markerSize,
-    height: markerSize,
-    borderRadius: shape === 'circle' ? '50%' : 4,
-    backgroundColor: color,
-    color: text_color,
-    opacity,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: markerSize * 0.43,
-    fontWeight: 600,
-    cursor: 'default',
-    flexShrink: 0,
-  };
-
-  const imgStyle: React.CSSProperties = {
-    height: '60%',
-    width: '60%',
-  }
-
   return (
       <Tooltip title={waypoint.note}>
-        <div style={divStyle}>
+        <div
+            className={`absolute pointer-events-auto -translate-x-1/2 -translate-y-1/2 flex items-center justify-center font-semibold cursor-default shrink-0 ${shape === 'circle' ? 'rounded-full' : 'rounded'}`}
+            style={{left, top, width: markerSize, height: markerSize, backgroundColor: color, color: text_color, opacity, fontSize: markerSize * 0.43}}
+        >
           {!icon && label}
-          {icon && <img style={imgStyle} src={`/icons/${icon}.svg`} alt={waypoint.note}/>}
+          {icon && <img className="h-[60%] w-[60%]" src={`/icons/${icon}.svg`} alt={waypoint.note}/>}
         </div>
       </Tooltip>
   );

@@ -1,4 +1,5 @@
-import type {PoiData, PoiMetadata, WaypointProperty, WaypointType} from "./types.ts";
+
+import type {PoiData, PoiMetadata, WaypointProperty, WaypointType} from "./hooks/useMapData.ts";
 
 export const POI_METADATA: Record<keyof PoiData, PoiMetadata> = {
   cameras: {

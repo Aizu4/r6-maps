@@ -1,5 +1,28 @@
 import {createContext, useContext} from 'react';
-import type {MapDisplaySettings} from "../types.ts";
+
+import type {PoiData} from "./useMapData.ts";
+
+export interface MapDisplaySettings {
+  currentFloor: number;
+  selectedPoiCategories: PoiCategory[];
+  selectedBombLocation: string | null;
+  showSpawns: boolean;
+  showRooms: boolean;
+  showCoordinates: boolean;
+  captureCoordinates: boolean;
+}
+
+export type PoiCategory = keyof PoiData;
+
+export const defaultSettings: MapDisplaySettings = {
+  currentFloor: 1,
+  selectedPoiCategories: [],
+  selectedBombLocation: null,
+  showSpawns: false,
+  showRooms: false,
+  showCoordinates: false,
+  captureCoordinates: false,
+};
 
 interface MapDisplaySettingsContextType {
   displaySettings: MapDisplaySettings;
