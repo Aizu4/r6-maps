@@ -28,22 +28,22 @@
   ],
   "waypoints": {
     "cameras": [
-      {"position": {"x": 595, "y": 495, "floors": [1]}, "note": "Basement hallway"},
-      {"position": {"x": 320, "y": 380, "floors": [1]}, "note": "Basement bedroom"},
-      {"position": {"x": 410, "y": 340, "floors": [2]}, "note": "Kitchen"},
-      {"position": {"x": 650, "y": 280, "floors": [2]}, "note": "Bar"},
-      {"position": {"x": 530, "y": 600, "floors": [2]}, "note": "Living room"},
-      {"position": {"x": 390, "y": 310, "floors": [3]}, "note": "Master bedroom"},
-      {"position": {"x": 620, "y": 390, "floors": [3]}, "note": "Trophy room"},
-      {"position": {"x": 500, "y": 400, "floors": [4]}, "note": "Roof exterior"}
+      {"position": {"x": 595, "y": 495, "floors": [1]}},
+      {"position": {"x": 320, "y": 380, "floors": [1]}},
+      {"position": {"x": 410, "y": 340, "floors": [2]}},
+      {"position": {"x": 650, "y": 280, "floors": [2]}},
+      {"position": {"x": 530, "y": 600, "floors": [2]}},
+      {"position": {"x": 390, "y": 310, "floors": [3]}},
+      {"position": {"x": 620, "y": 390, "floors": [3]}},
+      {"position": {"x": 500, "y": 400, "floors": [4]}}
     ],
     "fire_extinguishers": [
-      {"position": {"x": 440, "y": 510, "floors": [1]}, "note": "Near vault door"},
-      {"position": {"x": 370, "y": 390, "floors": [2]}, "note": "Dining room entrance"}
+      {"position": {"x": 440, "y": 510, "floors": [1]}},
+      {"position": {"x": 370, "y": 390, "floors": [2]}}
     ],
     "gas_pipes": [
-      {"position": {"x": 480, "y": 440, "floors": [1]}, "note": "Basement east wall"},
-      {"position": {"x": 560, "y": 320, "floors": [2]}, "note": "Kitchen ceiling"}
+      {"position": {"x": 480, "y": 440, "floors": [1]}},
+      {"position": {"x": 560, "y": 320, "floors": [2]}}
     ],
     "hatches": [
       {"position": {"x": 1049, "y": 343, "floors": [3]}},
@@ -53,9 +53,9 @@
       {"position": {"x": 960, "y": 772, "floors": [2]}}
     ],
     "stairs": [
-      {"position": {"x": 866, "y": 367, "floors": [1, 2]}, "note": "Basement stairs"},
-      {"position": {"x": 907, "y": 62, "floors": [2, 3]}, "note": "Main staircase"},
-      {"position": {"x": 913, "y": 842, "floors": [2, 3]}, "note": "Attic stairs"}
+      {"position": {"x": 866, "y": 367, "floors": [1, 2]}},
+      {"position": {"x": 907, "y": 62, "floors": [2, 3]}},
+      {"position": {"x": 913, "y": 842, "floors": [2, 3]}}
     ]
   },
   "rooms": [
