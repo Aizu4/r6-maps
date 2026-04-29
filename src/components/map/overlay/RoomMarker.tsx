@@ -1,15 +1,16 @@
 import {useState} from 'react';
-import {type Room, useMapData} from "../../hooks/useMapData.ts";
+import {useMapData} from "../../../hooks/useMapData.ts";
+import type {Room} from "../../../lib/types.ts";
 
 interface MapRoomMarkerProps {
   roomData: Room;
   imgSize?: { width: number; height: number };
 }
 
-export default function MapRoomMarker({roomData, imgSize}: MapRoomMarkerProps) {
+export default function RoomMarker({roomData, imgSize}: MapRoomMarkerProps) {
   return (
       <>
-        {roomData.perimeter && <RoomPerimeter roomData={roomData} imgSize={imgSize}/>}
+        {roomData.poly && <RoomPerimeter roomData={roomData} imgSize={imgSize}/>}
         <RoomLabel roomData={roomData} imgSize={imgSize}/>
       </>
   );
@@ -20,7 +21,7 @@ function RoomPerimeter({roomData, imgSize}: MapRoomMarkerProps) {
 
   const [hovered, setHovered] = useState(false);
 
-  const points = roomData.perimeter!.map(p => `${p.x},${p.y}`).join(' ');
+  const points = roomData.poly.map(p => `${p.x},${p.y}`).join(' ');
 
   return (
       <svg
@@ -42,20 +43,21 @@ function RoomPerimeter({roomData, imgSize}: MapRoomMarkerProps) {
 }
 
 function RoomLabel({roomData, imgSize}: MapRoomMarkerProps) {
-  const left = imgSize ? `${(roomData.position.x / imgSize.width) * 100}%` : roomData.position.x;
-  const top = imgSize ? `${(roomData.position.y / imgSize.height) * 100}%` : roomData.position.y;
-
-  const baseStyle = {left, top, fontFamily: '"Anton", sans-serif'};
+  const baseStyle = {
+    left: imgSize ? `${(roomData.position.x / imgSize.width) * 100}%` : roomData.position.x,
+    top: imgSize ? `${(roomData.position.y / imgSize.height) * 100}%` : roomData.position.y,
+    fontFamily: '"Anton", sans-serif'
+  };
 
   return (
       <>
         <div
             aria-hidden="true"
-            className="absolute text-xs text-white/85 pointer-events-none select-none whitespace-nowrap -translate-x-1/2 translate-y-[-49%] z-2"
+            className="absolute text-xs text-white pointer-events-none select-none whitespace-nowrap -translate-x-1/2 translate-y-[-49%] z-2"
             style={{...baseStyle, WebkitTextStroke: '4px black'}}
         >{roomData.name}</div>
         <div
-            className="absolute text-xs text-white/85 pointer-events-none select-none whitespace-nowrap -translate-x-1/2 -translate-y-1/2 z-3"
+            className="absolute text-xs text-white pointer-events-none select-none whitespace-nowrap -translate-x-1/2 -translate-y-1/2 z-3"
             style={baseStyle}
         >{roomData.name}</div>
       </>

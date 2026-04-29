@@ -3,7 +3,7 @@ import {
   defaultSettings,
   type MapDisplaySettings,
   MapDisplaySettingsContext
-} from "../../hooks/useMapDisplaySettings.ts";
+} from "../../../hooks/useMapDisplaySettings.ts";
 
 export default function MapDisplaySettingsProvider({children}: { children: ReactNode }) {
   const [displaySettings, setDisplaySettings] = useState<MapDisplaySettings>(defaultSettings);

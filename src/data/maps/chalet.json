@@ -14,17 +14,19 @@
   ],
   "bomb_locations": [
     {
+      "id": 1,
       "name": "Vault / Snowmobile Garage",
       "position_a": {"x": 450, "y": 520, "floors": [1]},
       "position_b": {"x": 380, "y": 290, "floors": [1]}
     },
     {
+      "id": 2,
       "name": "Kitchen / Dining Room",
       "position_a": {"x": 480, "y": 400, "floors": [2]},
       "position_b": {"x": 580, "y": 480, "floors": [2]}
     }
   ],
-  "poi": {
+  "waypoints": {
     "cameras": [
       {"position": {"x": 595, "y": 495, "floors": [1]}, "note": "Basement hallway"},
       {"position": {"x": 320, "y": 380, "floors": [1]}, "note": "Basement bedroom"},
@@ -39,7 +41,7 @@
       {"position": {"x": 440, "y": 510, "floors": [1]}, "note": "Near vault door"},
       {"position": {"x": 370, "y": 390, "floors": [2]}, "note": "Dining room entrance"}
     ],
-    "pipes": [
+    "gas_pipes": [
       {"position": {"x": 480, "y": 440, "floors": [1]}, "note": "Basement east wall"},
       {"position": {"x": 560, "y": 320, "floors": [2]}, "note": "Kitchen ceiling"}
     ],
@@ -60,7 +62,7 @@
     {
       "name": "Piano Room",
       "position": {"x": 891, "y": 347, "floors": [3]},
-      "perimeter": [
+      "poly": [
         {"x": 795, "y": 313},
         {"x": 991, "y": 313},
         {"x": 991, "y": 376},
@@ -72,7 +74,7 @@
     {
       "name": "",
       "position": {"x": 730, "y": 578, "floors": [3]},
-      "perimeter": [
+      "poly": [
         {"x": 542, "y": 533},
         {"x": 542, "y": 611},
         {"x": 905, "y": 611},
@@ -82,7 +84,7 @@
     {
       "name": "",
       "position": {"x": 730, "y": 578, "floors": [3]},
-      "perimeter": [
+      "poly": [
         {"x": 850, "y": 34},
         {"x": 1079, "y": 34},
         {"x": 1079, "y": 171},
@@ -92,7 +94,7 @@
     {
       "name": "Master Bedroom",
       "position": {"x": 1038, "y": 210, "floors": [3]},
-      "perimeter": [
+      "poly": [
         {"x": 931, "y": 174},
         {"x": 1126, "y": 174},
         {"x": 1126, "y": 376},
@@ -104,7 +106,7 @@
     {
       "name": "Master Bathroom",
       "position": {"x": 863, "y": 241, "floors": [3]},
-      "perimeter": [
+      "poly": [
         {"x": 795, "y": 174},
         {"x": 927, "y": 174},
         {"x": 927, "y": 310},
@@ -117,7 +119,7 @@
     "blueprint_url": "https://static2.cdn.ubi.com/gamesites/rainbow6/blueprints/r6-maps-chalet-blueprints.zip",
     "blueprint_path": "maps/chalet/r6-maps-chalet-blueprint-{}.jpg",
     "background_color": "#1a1a2e",
-    "marker_size": 26,
+    "waypoint_size": 26,
     "highlight_color": "#ff00ff"
   }
 }

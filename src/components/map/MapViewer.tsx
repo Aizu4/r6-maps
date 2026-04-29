@@ -1,52 +1,25 @@
-import {useEffect, useRef, useState, type MouseEvent} from 'react';
-import {message} from 'antd';
+import {useRef, useState} from 'react';
 import {TransformComponent, TransformWrapper} from 'react-zoom-pan-pinch';
-import MapOverlay from './MapOverlay';
+import MapOverlay from './overlay/MapOverlay';
 import {useMapDisplaySettings} from "../../hooks/useMapDisplaySettings.ts";
 import {useMapData} from "../../hooks/useMapData.ts";
+import {useMapInteraction} from "../../hooks/useMapInteraction.ts";
 
 
 export default function MapViewer() {
-  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [imgSize, setImgSize] = useState<{ width: number; height: number } | undefined>(undefined);
-  const capturedPoints = useRef<string[]>([]);
 
   const {mapData} = useMapData();
   const {displaySettings} = useMapDisplaySettings();
-
-  useEffect(() => {
-    if (!displaySettings.captureCoordinates) capturedPoints.current = [];
-  }, [displaySettings.captureCoordinates]);
-
-  function getImageCoords(e: MouseEvent<HTMLDivElement>) {
-    const rect = imgRef.current!.getBoundingClientRect();
-    const scale = rect.width / imgRef.current!.naturalWidth;
-    return {
-      x: Math.round((e.clientX - rect.left) / scale),
-      y: Math.round((e.clientY - rect.top) / scale),
-    };
-  }
-
-  function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
-    if (!imgRef.current) return;
-    setMousePos(getImageCoords(e));
-  }
-
-  function handleMapClick(e: MouseEvent<HTMLDivElement>) {
-    if (!imgRef.current) return;
-    capturedPoints.current = [...capturedPoints.current, JSON.stringify(getImageCoords(e))];
-    navigator.clipboard.writeText(capturedPoints.current.join(', '));
-    const n = capturedPoints.current.length;
-    message.success(`Copied ${n} point${n === 1 ? '' : 's'} to clipboard`, 1);
-  }
+  const {mousePos, onMouseMove, onMouseLeave, onClick} = useMapInteraction(imgRef);
 
   return (
       <div
           className="relative w-full h-full"
-          onMouseMove={displaySettings.showCoordinates ? handleMouseMove : undefined}
-          onMouseLeave={displaySettings.showCoordinates ? () => setMousePos(null) : undefined}
-          onClick={displaySettings.captureCoordinates ? handleMapClick : undefined}
+          onMouseMove={onMouseMove}
+          onMouseLeave={onMouseLeave}
+          onClick={onClick}
       >
         <TransformWrapper minScale={1} maxScale={5} centerOnInit>
           <TransformComponent
@@ -54,8 +27,8 @@ export default function MapViewer() {
             <div className="relative">
               <img
                   ref={imgRef}
-                  src={'/' + mapData.metadata.blueprint_path.replace('{}', String(displaySettings.currentFloor))}
-                  alt={`${mapData.display_name} - ${displaySettings.currentFloor}`}
+                  src={'/' + mapData.metadata.blueprint_path.replace('{}', String(displaySettings.selectedFloor))}
+                  alt={`${mapData.display_name} - ${displaySettings.selectedFloor}`}
                   onLoad={e => setImgSize({width: e.currentTarget.naturalWidth, height: e.currentTarget.naturalHeight})}
               />
               <MapOverlay imgSize={imgSize}/>

@@ -1,4 +1,4 @@
-import type {MapData} from "../hooks/useMapData.ts";
+import type {MapData} from "../lib/types.ts";
 
 const modules = import.meta.glob<{ default: MapData }>('./maps/*.json', { eager: true });
 
