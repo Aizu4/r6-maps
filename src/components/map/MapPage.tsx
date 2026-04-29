@@ -1,7 +1,6 @@
 import {useNavigate} from 'react-router-dom';
 import Toolbar from './toolbar/Toolbar';
 import MapViewer from './MapViewer';
-
 import {useSearchParams} from "react-router";
 import MapDisplaySettingsProvider from "./providers/MapDisplaySettingsProvider.tsx";
 import MapDataProvider from "./providers/MapDataProvider.tsx";

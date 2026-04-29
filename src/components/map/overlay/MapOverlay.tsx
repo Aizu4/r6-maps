@@ -26,10 +26,10 @@ export default function MapOverlay({imgSize}: MapOverlayProps) {
   return (
       <div className="absolute inset-0 pointer-events-none">
         {mapMarkerPropsArray.map((p, i) =>
-            <Marker key={i} size={mapData.metadata.waypoint_size} imgSize={imgSize} {...p}/>
+            <Marker key={`${p.position.x}-${p.position.y}-${i}`} size={mapData.metadata.waypoint_size} imgSize={imgSize} {...p}/>
         )}
-        {roomMarkers.map((r, i) =>
-            <RoomMarker key={`room-${i}`} roomData={r} imgSize={imgSize}/>
+        {roomMarkers.map((r) =>
+            <RoomMarker key={`room-${r.name}`} roomData={r} imgSize={imgSize}/>
         )}
       </div>
   );
