@@ -20,6 +20,7 @@ export default function CheckboxButton(props: CheckboxButtonProps) {
             if (!props.onToggle?.(!checked)) setChecked(!checked);
           }}
           disabled={props.disabled}
-      >{props.children}</Button>
+          children={props.children}
+      />
   );
 }

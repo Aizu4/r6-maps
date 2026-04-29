@@ -1,8 +1,8 @@
 export interface MapData {
-  display_name: string;
+  displayName: string;
   floors: Floor[];
-  spawn_locations: SpawnLocation[];
-  bomb_locations: BombLocation[];
+  spawnLocations: SpawnLocation[];
+  bombLocations: BombLocation[];
   poi: PoiData;
   rooms: Room[];
   metadata: MapMetadata;
@@ -14,14 +14,12 @@ export interface Floor {
 }
 
 export interface SpawnLocation {
-  id: number;
   name: string;
-  position: Position;
+  position: { x: number; y: number };
   note?: string;
 }
 
 export interface BombLocation {
-  id: number;
   name: string;
   position_a: Position;
   position_b: Position;
@@ -29,7 +27,7 @@ export interface BombLocation {
 
 export interface PoiData {
   cameras?: Poi[];
-  fire_extinguishers?: Poi[];
+  fireExtinguishers?: Poi[];
   pipes?: Poi[];
   stairs?: Poi[];
   hatches?: Poi[];
@@ -41,8 +39,8 @@ export interface Poi {
 }
 
 export interface PoiMetadata {
-  friendly_name: string;
-  waypoint_type: WaypointType;
+  friendlyName: string;
+  waypointType: WaypointType;
 }
 
 export interface Position {
@@ -52,31 +50,32 @@ export interface Position {
 }
 
 export interface Room {
-  id: number;
   name: string;
   position: Position;
-  perimeter?: PolygonPerimeter;
-}
-
-export interface PolygonPerimeter {
-  points: {x: number, y: number}[];
+  angle?: number;
+  perimeter?: {x: number, y: number}[];
 }
 
 export interface MapMetadata {
   slug: string;
-  blueprint_url: string;
-  blueprint_path: string;
-  background_color: string;
-  marker_size: number;
+  blueprintUrl: string;
+  blueprintPath: string;
+  backgroundColor: string;
+  markerSize: number;
+  highlightColor: string;
 }
 
 export interface MapDisplaySettings {
   currentFloor: number;
-  selectedDisplay: string[][];
+  selectedPoiCategories: PoiCategory[];
+  selectedBombLocation: string | null;
   showSpawns: boolean;
-  selectedBomb: string[];
-  show_coordinates: boolean;
+  showRooms: boolean;
+  showCoordinates: boolean;
+  captureCoordinates: boolean;
 }
+
+export type PoiCategory = keyof PoiData;
 
 export interface Waypoint {
   type: WaypointType;
@@ -84,11 +83,12 @@ export interface Waypoint {
   note?: string;
 }
 
-export type WaypointType = 'camera' | 'hatch' | 'spawn' | 'stairs' | 'fire_extinguisher' | 'pipe' | 'bomb_a' | 'bomb_b';
+export type WaypointType = 'camera' | 'hatch' | 'spawn' | 'stairs' | 'fireExtinguisher' | 'pipe' | 'bombA' | 'bombB';
 
 export interface WaypointProperty {
-  label: string;
   name: string;
+  label?: string;
+  icon?: string;
   color: string;
   textColor: string;
   shape: 'circle' | 'square';

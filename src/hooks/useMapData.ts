@@ -1,8 +1,9 @@
 import {createContext, useContext} from 'react';
-import type {MapData} from "../types.ts";
+import type {MapData, MapMetadata} from "../types.ts";
 
 interface MapDataContextType {
   mapData: MapData;
+  mapMetadata: MapMetadata;
 }
 
 export const MapDataContext = createContext<MapDataContextType | null>(null);

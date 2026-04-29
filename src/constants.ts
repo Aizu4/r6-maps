@@ -2,34 +2,41 @@ import type {PoiData, PoiMetadata, WaypointProperty, WaypointType} from "./types
 
 export const POI_METADATA: Record<keyof PoiData, PoiMetadata> = {
   cameras: {
-    friendly_name: 'Cameras [C]',
-    waypoint_type: 'camera'
+    friendlyName: 'Cameras',
+    waypointType: 'camera'
   },
-  fire_extinguishers: {
-    friendly_name: 'Fire Extinguishers [E]',
-    waypoint_type: 'fire_extinguisher'
+  fireExtinguishers: {
+    friendlyName: 'Fire Extinguishers',
+    waypointType: 'fireExtinguisher'
   },
   pipes: {
-    friendly_name: 'Pipes [P]',
-    waypoint_type: 'pipe'
+    friendlyName: 'Pipes',
+    waypointType: 'pipe'
   },
   stairs: {
-    friendly_name: 'Stairs/Ladders [L]',
-    waypoint_type: 'stairs'
+    friendlyName: 'Stairs/Ladders',
+    waypointType: 'stairs'
   },
   hatches: {
-    friendly_name: 'Hatches [H]',
-    waypoint_type: 'hatch'
+    friendlyName: 'Hatches',
+    waypointType: 'hatch'
   },
 };
 
 export const WAYPOINT_PROPERTIES: Record<WaypointType, WaypointProperty> = {
-  camera: {label: 'C', name: 'Camera', color: '#a855f7', textColor: '#ffffff', shape: 'circle'},
-  hatch: {label: 'H', name: 'Hatch', color: '#f97316', textColor: '#ffffff', shape: 'circle'},
-  spawn: {label: 'S', name: 'Spawn', color: '#22c55e', textColor: '#ffffff', shape: 'circle'},
-  stairs: {label: 'L', name: 'Stairs', color: '#22c55e', textColor: '#ffffff', shape: 'circle'},
-  fire_extinguisher: {label: 'E', name: 'Fire Extinguisher', color: '#ef4444', textColor: '#ffffff', shape: 'circle'},
-  pipe: {label: 'P', name: 'Pipe', color: '#92400e', textColor: '#ffffff', shape: 'circle'},
-  bomb_a: {label: 'A', name: 'Bomb A', color: '#eab308', textColor: '#000000', shape: 'square'},
-  bomb_b: {label: 'B', name: 'Bomb B', color: '#eab308', textColor: '#000000', shape: 'square'},
+  camera: {label: 'C', icon: 'camera', name: 'Camera', color: '#650fb3', textColor: '#fff', shape: 'circle'},
+  hatch: {label: 'H', icon: 'hatch', name: 'Hatch', color: '#ff6b00', textColor: '#fff', shape: 'circle'},
+  spawn: {label: 'S', name: 'Spawn', color: '#2243c5', textColor: '#fff', shape: 'circle'},
+  stairs: {label: 'L', icon: 'stairs', name: 'Stairs', color: '#008a34', textColor: '#fff', shape: 'circle'},
+  fireExtinguisher: {
+    label: 'E',
+    icon: 'fire_extinguisher',
+    name: 'Fire Extinguisher',
+    color: '#ea0000',
+    textColor: '#fff',
+    shape: 'circle'
+  },
+  pipe: {label: 'P', icon: 'pipe', name: 'Pipe', color: '#7a0808', textColor: '#fff', shape: 'circle'},
+  bombA: {label: 'A', name: 'Bomb A', color: '#eab308', textColor: '#000', shape: 'square'},
+  bombB: {label: 'B', name: 'Bomb B', color: '#eab308', textColor: '#000', shape: 'square'},
 };

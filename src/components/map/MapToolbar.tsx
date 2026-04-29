@@ -1,6 +1,6 @@
 import {Button, Cascader, Flex, Radio} from 'antd';
 import {ArrowLeftOutlined} from '@ant-design/icons';
-import type {PoiData} from "../../types.ts";
+import type {PoiCategory, PoiData} from "../../types.ts";
 import {type ReactNode, useMemo} from "react";
 import CheckboxButton from "../common/CheckboxButton.tsx";
 import {useMapDisplaySettings} from "../../hooks/useMapDisplaySettings.ts";
@@ -26,6 +26,7 @@ export default function MapToolbar(props: ToolbarProps) {
         <PoiSelect/>
         <BombSiteSelect/>
         <SpawnPointToggle/>
+        <RoomToggle/>
         {props.debugEnabled && <div style={{flex: 1}}/>}
         {props.debugEnabled && <DebugOptions/>}
       </Flex>
@@ -64,8 +65,8 @@ function PoiSelect() {
 
   const displayOptions = useMemo<Option[]>(() => {
     return (Object.keys(mapData.poi) as (keyof PoiData)[]).map(key => ({
-      value: key,
-      label: POI_METADATA[key].friendly_name,
+      value: key as PoiCategory,
+      label: POI_METADATA[key].friendlyName,
     }))
   }, [mapData.poi]);
 
@@ -73,11 +74,11 @@ function PoiSelect() {
       <Cascader
           placeholder="Points of Interest"
           options={displayOptions}
-          value={displaySettings.selectedDisplay}
-          onChange={val => updateDisplaySettings({selectedDisplay: val as string[][]})}
+          value={displaySettings.selectedPoiCategories.map(cat => [cat])}
+          onChange={val => updateDisplaySettings({selectedPoiCategories: (val as string[][]).map(v => v[0] as PoiCategory)})}
           multiple
           maxTagCount={0}
-          maxTagPlaceholder={() => `${displaySettings.selectedDisplay.length} selected`}
+          maxTagPlaceholder={() => `${displaySettings.selectedPoiCategories.length} selected`}
       />
   );
 }
@@ -87,15 +88,15 @@ function BombSiteSelect() {
   const {displaySettings, updateDisplaySettings} = useMapDisplaySettings();
 
   const bombOptions = useMemo<Option[]>(() => {
-    return mapData.bomb_locations.map(b => ({value: b.name, label: b.name}))
-  }, [mapData.bomb_locations]);
+    return mapData.bombLocations.map(b => ({value: b.name, label: b.name}))
+  }, [mapData.bombLocations]);
 
   return (
       <Cascader
           placeholder="Bomb Site"
           options={bombOptions}
-          value={displaySettings.selectedBomb}
-          onChange={val => updateDisplaySettings({selectedBomb: val as string[]})}
+          value={displaySettings.selectedBombLocation != null ? [displaySettings.selectedBombLocation] : undefined}
+          onChange={val => updateDisplaySettings({selectedBombLocation: (val as string[]).length > 0 ? (val as string[])[0] : null})}
       />
   );
 }
@@ -110,22 +111,44 @@ function SpawnPointToggle() {
   );
 }
 
+function RoomToggle() {
+  const {updateDisplaySettings} = useMapDisplaySettings();
+
+  return (
+      <CheckboxButton
+          onToggle={v => updateDisplaySettings({showRooms: v})}
+      >Rooms</CheckboxButton>
+  );
+}
+
 function DebugOptions() {
   const {displaySettings, updateDisplaySettings} = useMapDisplaySettings();
 
-  const debugOptions = [{
-    value: 'show_coordinates',
-    label: 'Show Coordinates'
-  }]
+  const debugOptions = [
+    {
+      value: 'showCoordinates',
+      label: 'Show Coordinates'
+    },
+    {
+      value: 'captureCoordinates',
+      label: 'Capture Coordinates on Click'
+    },
+  ]
 
-  const value = displaySettings.show_coordinates ? [['show_coordinates']] : [];
+  const value = [
+    ...(displaySettings.showCoordinates    ? [['showCoordinates']]    : []),
+    ...(displaySettings.captureCoordinates ? [['captureCoordinates']] : []),
+  ];
 
   return (
       <Cascader
           placeholder="Debug Options"
           options={debugOptions}
           value={value}
-          onChange={val => updateDisplaySettings({show_coordinates: (val as string[][]).some(v => v[0] === 'show_coordinates')})}
+          onChange={val => updateDisplaySettings({
+            showCoordinates:    (val as string[][]).some(v => v[0] === 'showCoordinates'),
+            captureCoordinates: (val as string[][]).some(v => v[0] === 'captureCoordinates'),
+          })}
           multiple
       />
   );
