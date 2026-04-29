@@ -3,13 +3,13 @@ import type {MapDisplaySettings} from "../../types.ts";
 import {MapDisplaySettingsContext} from "../../hooks/useMapDisplaySettings.ts";
 
 const defaultSettings: MapDisplaySettings = {
-  currentFloor: 1,
-  selectedPoiCategories: [],
-  selectedBombLocation: null,
-  showSpawns: false,
-  showRooms: false,
-  showCoordinates: false,
-  captureCoordinates: false,
+  current_floor: 1,
+  selected_poi_categories: [],
+  selected_bomb_location: null,
+  show_spawns: false,
+  show_rooms: false,
+  show_coordinates: false,
+  capture_coordinates: false,
 };
 
 export default function MapDisplaySettingsProvider({children}: { children: ReactNode }) {
