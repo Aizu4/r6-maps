@@ -74,11 +74,11 @@ function PoiSelect() {
       <Cascader
           placeholder="Points of Interest"
           options={displayOptions}
-          value={displaySettings.selected_poi_categories.map(cat => [cat])}
-          onChange={val => updateDisplaySettings({selected_poi_categories: (val as string[][]).map(v => v[0] as PoiCategory)})}
+          value={displaySettings.selectedPoiCategories.map(cat => [cat])}
+          onChange={val => updateDisplaySettings({selectedPoiCategories: (val as string[][]).map(v => v[0] as PoiCategory)})}
           multiple
           maxTagCount={0}
-          maxTagPlaceholder={() => `${displaySettings.selected_poi_categories.length} selected`}
+          maxTagPlaceholder={() => `${displaySettings.selectedPoiCategories.length} selected`}
       />
   );
 }
@@ -95,8 +95,8 @@ function BombSiteSelect() {
       <Cascader
           placeholder="Bomb Site"
           options={bombOptions}
-          value={displaySettings.selected_bomb_location != null ? [displaySettings.selected_bomb_location] : undefined}
-          onChange={val => updateDisplaySettings({selected_bomb_location: (val as string[]).length > 0 ? (val as string[])[0] : null})}
+          value={displaySettings.selectedBombLocation != null ? [displaySettings.selectedBombLocation] : undefined}
+          onChange={val => updateDisplaySettings({selectedBombLocation: (val as string[]).length > 0 ? (val as string[])[0] : null})}
       />
   );
 }
@@ -106,7 +106,7 @@ function SpawnPointToggle() {
 
   return (
       <CheckboxButton
-          onToggle={v => updateDisplaySettings({show_spawns: v})}
+          onToggle={v => updateDisplaySettings({showSpawns: v})}
       >Spawn Points</CheckboxButton>
   );
 }
@@ -116,7 +116,7 @@ function RoomToggle() {
 
   return (
       <CheckboxButton
-          onToggle={v => updateDisplaySettings({show_rooms: v})}
+          onToggle={v => updateDisplaySettings({showRooms: v})}
       >Rooms</CheckboxButton>
   );
 }
@@ -136,8 +136,8 @@ function DebugOptions() {
   ]
 
   const value = [
-    ...(displaySettings.show_coordinates    ? [['show_coordinates']]    : []),
-    ...(displaySettings.capture_coordinates ? [['capture_coordinates']] : []),
+    ...(displaySettings.showCoordinates    ? [['show_coordinates']]    : []),
+    ...(displaySettings.captureCoordinates ? [['capture_coordinates']] : []),
   ];
 
   return (
@@ -146,8 +146,8 @@ function DebugOptions() {
           options={debugOptions}
           value={value}
           onChange={val => updateDisplaySettings({
-            show_coordinates:    (val as string[][]).some(v => v[0] === 'show_coordinates'),
-            capture_coordinates: (val as string[][]).some(v => v[0] === 'capture_coordinates'),
+            showCoordinates:    (val as string[][]).some(v => v[0] === 'show_coordinates'),
+            captureCoordinates: (val as string[][]).some(v => v[0] === 'capture_coordinates'),
           })}
           multiple
       />

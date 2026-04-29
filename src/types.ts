@@ -66,13 +66,13 @@ export interface MapMetadata {
 }
 
 export interface MapDisplaySettings {
-  current_floor: number;
-  selected_poi_categories: PoiCategory[];
-  selected_bomb_location: string | null;
-  show_spawns: boolean;
-  show_rooms: boolean;
-  show_coordinates: boolean;
-  capture_coordinates: boolean;
+  currentFloor: number;
+  selectedPoiCategories: PoiCategory[];
+  selectedBombLocation: string | null;
+  showSpawns: boolean;
+  showRooms: boolean;
+  showCoordinates: boolean;
+  captureCoordinates: boolean;
 }
 
 export type PoiCategory = keyof PoiData;
