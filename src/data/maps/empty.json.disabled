@@ -1,0 +1,23 @@
+{
+  "display_name": "",
+  "floors": [],
+  "spawn_locations": [],
+  "bomb_locations": [],
+  "poi": {
+    "cameras": [],
+    "fire_extinguishers": [],
+    "pipes": [],
+    "hatches": [],
+    "stairs": [],
+    "ladders": []
+  },
+  "rooms": [],
+  "metadata": {
+    "slug": "",
+    "blueprint_url": "",
+    "blueprint_path": "",
+    "background_color": "",
+    "marker_size": 0,
+    "highlight_color": ""
+  }
+}
